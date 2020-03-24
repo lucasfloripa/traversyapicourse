@@ -1,28 +1,38 @@
 const express = require("express");
 const dontenv = require("dotenv");
-
-// Route files
+const morgan = require("morgan");
+const colors = require("colors");
+const connectDB = require("./config/db");
+const logger = require("./middleware/logger");
 const bootcamps = require("./routes/bootcamps");
 
 // Load env vars
 dontenv.config({ path: "./config/config.env" });
 
+// Connect to database
+connectDB();
+
 // Init express
 const app = express();
 
-app.use("/api/v1/bootcamps", bootcamps);
+// Midleware
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
-// Creating Routes
-// app.get("/", (req, res) => {
-//   res.send("Hello Express!");
-//   res.json({ name: "Lucas "});
-//   res.sendStatus(400 or any other http status);
-//   res.status(200).json({ success: false, data: { id: "1"}});
-// });
+// Mount Routers
+app.use("/api/v1/bootcamps", bootcamps);
 
 const PORT = process.env.PORT;
 
-app.listen(
+const server = app.listen(
   PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold)
 );
+
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (err, promise) => {
+  console.log(`Error: ${err.message}`.red);
+  // Close server $ exit process
+  server.close(() => process.exit(1));
+});
