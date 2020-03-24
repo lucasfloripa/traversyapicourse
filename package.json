@@ -1,5 +1,5 @@
 {
-  "name": "traversyapicorse",
+  "name": "traversyapicourse",
   "version": "1.0.0",
   "description": "Traversy Media Course on Udemy \"Node.js API Masterclass With Express & Mongo\".",
   "main": "server.js",
@@ -11,7 +11,8 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
