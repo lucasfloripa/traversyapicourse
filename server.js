@@ -9,6 +9,7 @@ const bootcamps = require("./routes/bootcamps");
 
 // Load env vars
 dontenv.config({ path: "./config/config.env" });
+const PORT = process.env.PORT;
 
 // Connect to database
 connectDB();
@@ -16,7 +17,7 @@ connectDB();
 // Init express
 const app = express();
 
-// Body Parser
+// Middleware Body Parser
 app.use(express.json());
 
 if (process.env.NODE_ENV === "development") {
@@ -26,9 +27,10 @@ if (process.env.NODE_ENV === "development") {
 // Mount Routers
 app.use("/api/v1/bootcamps", bootcamps);
 
+// Middleware errorHandler
 app.use(errorHandler);
 
-const PORT = process.env.PORT;
+
 
 const server = app.listen(
   PORT,
