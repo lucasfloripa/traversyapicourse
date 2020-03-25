@@ -1,4 +1,5 @@
 const Bootcamp = require("../models/Bootcamp");
+const ErrorResponse = require("../utils/errorResponse");
 
 // @desc      Get all bootcamps
 // @route     GET /api/v1/bootcamps
@@ -10,10 +11,8 @@ exports.getBootcamps = async (req, res) => {
       .status(200)
       .json({ success: true, count: bootcamps.length, data: bootcamps });
   } catch (error) {
-    res.status(400).json({ success: false });
+    next(error);
   }
-
-  res.status(200).json({ success: true, msg: "Show All Bootcamps" });
 };
 
 // @desc      Get single bootcamp
@@ -25,12 +24,12 @@ exports.getBootcamp = async (req, res, next) => {
     const bootcamp = await Bootcamp.findById(id);
 
     if (!bootcamp) {
-      return res.status(400).json({ success: false });
+      return next(new ErrorResponse(`Bootcamp not found with id of ${id}`));
     }
 
     res.status(200).json({ success: true, data: bootcamp });
   } catch (error) {
-    res.status(400).json({ success: false });
+    next(new ErrorResponse(`Bootcamp not found with id of ${id}`));
   }
 };
 
@@ -45,7 +44,7 @@ exports.createBootcamp = async (req, res, next) => {
       data: bootcamp
     });
   } catch (err) {
-    res.status(400).json({ success: false });
+    next(error);
   }
 };
 
@@ -61,11 +60,11 @@ exports.updateBootcamp = async (req, res, next) => {
       runValidators: true
     });
     if (!bootcamp) {
-      return res.status(400).json({ success: false });
+      return next(error);
     }
     res.status(200).json({ success: true, data: bootcamp });
   } catch (error) {
-    res.status(400).json({ success: false });
+    next(error);
   }
 };
 
@@ -76,11 +75,13 @@ exports.deleteBootcamp = async (req, res, next) => {
   const { id } = req.params;
   try {
     const bootcamp = await Bootcamp.findByIdAndDelete(id);
+
     if (!bootcamp) {
-      return res.status(400).json({ success: false });
+      return next(error);
     }
+
     res.status(200).json({ success: true, data: {} });
   } catch (error) {
-    res.status(400).json({ success: false });
+    next(error);
   }
 };
