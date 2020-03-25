@@ -15,6 +15,9 @@ connectDB();
 // Init express
 const app = express();
 
+// Body Parser
+app.use(express.json());
+
 // Midleware
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -27,7 +30,9 @@ const PORT = process.env.PORT;
 
 const server = app.listen(
   PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold)
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+  )
 );
 
 // Handle unhandled promise rejections
