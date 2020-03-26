@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/error");
 const bootcamps = require("./routes/bootcamps");
+const courses = require("./routes/courses");
 
 // Load env vars
 dontenv.config({ path: "./config/config.env" });
@@ -26,11 +27,10 @@ if (process.env.NODE_ENV === "development") {
 
 // Mount Routers
 app.use("/api/v1/bootcamps", bootcamps);
+app.use("/api/v1/courses", courses);
 
 // Middleware errorHandler
 app.use(errorHandler);
-
-
 
 const server = app.listen(
   PORT,
