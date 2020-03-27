@@ -117,6 +117,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
     { body } = req;
 
   const bootcamp = await Bootcamp.findByIdAndUpdate(id, body, {
+    // new: return the new version
     new: true,
     runValidators: true
   });
@@ -140,7 +141,7 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Bootcamp not found with id of ${id}`, 404));
   }
 
-  bootcamp.remove();
+  await bootcamp.remove();
 
   res.status(200).json({ success: true, data: {} });
 });
