@@ -9,6 +9,7 @@ const logger = require("./middleware/logger");
 const errorHandler = require("./middleware/error");
 const bootcamps = require("./routes/bootcamps");
 const courses = require("./routes/courses");
+const auth = require("./routes/auth");
 
 // Load env vars
 dontenv.config({ path: "./config/config.env" });
@@ -36,6 +37,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Mount Routers
 app.use("/api/v1/bootcamps", bootcamps);
 app.use("/api/v1/courses", courses);
+app.use("/api/v1/auth", auth);
 
 // Middleware errorHandler
 app.use(errorHandler);
