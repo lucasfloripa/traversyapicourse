@@ -50,7 +50,7 @@ exports.addCourse = asyncHandler(async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(bootcampId);
 
   if (!bootcamp) {
-    new ErrorResponse(`No bootcamp with the id of ${bootcampId}`);
+    new ErrorResponse(`No bootcamp with the id of ${bootcampId}`, 400);
   }
 
   const course = await Course.create(req.body);

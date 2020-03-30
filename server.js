@@ -3,6 +3,7 @@ const path = require("path");
 const dontenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
+const cookieParser = require("cookie-parser");
 const fileupload = require("express-fileupload");
 const connectDB = require("./config/db");
 const logger = require("./middleware/logger");
@@ -23,6 +24,9 @@ const app = express();
 
 // Middleware Body Parser
 app.use(express.json());
+
+// Cookie Parser
+app.use(cookieParser());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
