@@ -89,12 +89,12 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const course = await Course.findByIdAndUpdate(id, body, {
+  const courseRes = await Course.findByIdAndUpdate(id, body, {
     new: true,
     runValidators: true
   });
 
-  res.status(200).json({ success: true, data: course });
+  res.status(200).json({ success: true, data: courseRes });
 });
 
 // @desc      Delete courses
@@ -112,7 +112,10 @@ exports.deleteCourse = asyncHandler(async (req, res, next) => {
   // Make sure user is course owner
   if (course.user.toString() !== req.user.id && req.user.role !== "admin") {
     return next(
-      new ErrorResponse(`user ${id} is not authorized to delete this course`, 401)
+      new ErrorResponse(
+        `user ${id} is not authorized to delete this course`,
+        401
+      )
     );
   }
 
